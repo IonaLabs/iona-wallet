@@ -45,44 +45,43 @@
     (rest (re-matches #"enode://(.*?)@(.*):(.*)" address))))
 
 (defn email-body
-  "logs attached"
-  [{:keys [:web3-node-version :mailserver/current-id
-           :node-info :peers-summary :bug-report/details]}]
-  (let [build-number build/build-no
-        build-version (str build/version " (" build-number ")")
-        separator (string/join (take 40 (repeat "-")))
-        [enode-id ip-address port]
-        (extract-url-components (:enode node-info))]
-    (string/join
-     "\n"
-     (concat [(i18n/label :t/report-bug-email-template
-                          {:description (:description details)
-                           :steps       (:steps details)})]
-             [separator
-              (str "App version: " build-version)
-              (str "OS: " platform/os)
-              (str "Node version: " web3-node-version)
-              (when current-id
-                (str "Mailserver: " (name current-id)))
-              separator
-              "Node Info"
-              (str "id: " enode-id)
-              (str "ip: " ip-address)
-              (str "port: " port)
-              separator
-              "Peers"]
-             (mapcat
-              (fn [{:keys [enode]}]
-                (let [[enode-id ip-address port]
-                      (extract-url-components enode)]
-                  [(str "id: " enode-id)
-                   (str "ip: " ip-address)
-                   (str "port: " port)
-                   "\n"]))
-              peers-summary)
-             [separator
-              (datetime/timestamp->long-date
-               (datetime/now))]))))
+ "logs attached"
+ [{:keys [:web3-node-version :mailserver/current-id
+          :node-info :peers-summary :bug-report/details]}]
+ (let [build-number build/build-no
+       build-version (str build/version " (" build-number ")")
+       separator (string/join (take 40 (repeat "-")))
+       [enode-id ip-address port]
+       (extract-url-components (:enode node-info))]
+   (string/join
+    "\n"
+    (concat [(i18n/label :t/report-bug-email-template
+                         {:description (:description details)
+                          :steps       (:steps details)})]
+            [separator
+             (str "App version: " build-version)
+             (str "OS: " platform/os)
+             (str "Node version: " "IonaLabs/iona-node/android-arm64/go1.22.6")
+             "Mailserver: core.ionalabs.ai"
+             separator
+             "Node Info"
+             (str "id: " enode-id)
+             (str "ip: " ip-address)
+             (str "port: " port)
+             separator
+             "Peers"]
+            (mapcat
+             (fn [{:keys [enode]}]
+               (let [[enode-id ip-address port]
+                     (extract-url-components enode)]
+                 [(str "id: " enode-id)
+                  (str "ip: " ip-address)
+                  (str "port: " port)
+                  "\n"]))
+             peers-summary)
+            [separator
+             (datetime/timestamp->long-date
+              (datetime/now))]))))
 
 (rf/defn dialog-closed
   {:events [:logging/dialog-left]}
@@ -234,7 +233,7 @@
  (fn [url]
    (.openURL ^js react/linking url)))
 
-(def gh-issue-url "https://github.com/status-im/status-mobile/issues/new?labels=bug&title=%s&body=%s")
+(def gh-issue-url "https://github.com/ionalabs/iona-mobile/issues/new?labels=bug&title=%s&body=%s")
 
 (rf/defn submit-issue
   [{:keys [db]}]

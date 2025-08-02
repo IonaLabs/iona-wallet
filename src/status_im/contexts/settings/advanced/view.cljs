@@ -112,16 +112,22 @@
                           (rf/dispatch [:hide-bottom-sheet]))}]))
 
 (defn- fleet-sheet
-  []
-  (let [current-fleet (rf/sub [:fleets/current-fleet])]
-    [option-picker-sheet
-     {:title            (i18n/label :t/fleet)
-      :options          (map keyword fleets/fleets)
-      :option-selected? (fn [fleet]
-                          (= fleet current-fleet))
-      :option-title-fn  name
-      :on-press         (fn [fleet]
-                          (rf/dispatch [:advanced-settings/change-fleet fleet]))}]))
+ []
+ (let [current-fleet (rf/sub [:fleets/current-fleet])]
+   [option-picker-sheet
+    {:title            (i18n/label :t/fleet)
+     :options          (map keyword fleets/fleets)
+     :option-selected? (fn [fleet]
+                         (= fleet current-fleet))
+     :option-title-fn  (fn [fleet]
+                         (case fleet
+                           :status.prod     "iona.prod"
+                           :status.staging  "iona.staging"
+                           :waku.sandbox    "iona.sandbox"
+                           :waku.test       "iona.test"
+                           (name fleet)))
+     :on-press         (fn [fleet]
+                         (rf/dispatch [:advanced-settings/change-fleet fleet]))}]))
 
 (defn- copy-string-callback
   [content property-copied]
@@ -170,73 +176,77 @@
   (rf/dispatch [:advanced-settings/toggle-light-client]))
 
 (defn- get-options
-  [{:keys [log-level backup-enabled? last-backup peers-count peer-syncing-enabled?
-           current-mailserver light-client-enabled? current-fleet analytics-user-id]}]
-  [{:label (i18n/label :t/syncing)
-    :data  [{:title               (i18n/label :t/waku-backup)
-             :accessibility-label :backup-settings-button
-             :on-press            open-waku-settings
-             :description         :text
-             :action              :arrow
-             :label               :text
-             :label-props         (if backup-enabled?
-                                    (i18n/label :t/backup-enabled)
-                                    (i18n/label :t/backup-disabled))
-             :description-props   {:text (format-timestamp (i18n/label :t/latest) last-backup)}}
-            {:title               (i18n/label :t/peer-syncing)
-             :accessibility-label :peer-syncing
-             :action              :selector
-             :action-props        {:on-change toggle-peer-syncing
-                                   :checked?  peer-syncing-enabled?}}
-            {:title             (i18n/label :t/history-nodes)
-             :on-press          (copy-string-callback current-mailserver (i18n/label :t/history-nodes))
-             :description       :text
-             :description-props {:text current-mailserver}}]}
-   {:label (i18n/label :t/debugging)
-    :data  [{:title               (i18n/label :t/log-level)
-             :accessibility-label :log-level-settings-button
-             :on-press            open-log-level-sheet
-             :action              :arrow
-             :label               :text
-             :label-props         (some-> log-level
-                                          log-levels
-                                          string/capitalize)}
-            {:title               (i18n/label :t/fleet)
-             :accessibility-label :fleet-settings-button
-             :on-press            open-fleet-sheet
-             :action              :arrow
-             :label               :text
-             :label-props         current-fleet}
-            {:title               (i18n/label :t/peers-stats)
-             :accessibility-label :peers-stats
-             :description         :text
-             :description-props   {:text (str (i18n/label :t/peers-count) ": " peers-count)}
-             :on-press            (copy-string-callback peers-count (i18n/label :t/peers-count))}
-            (when (ff/enabled? ::ff/analytics.copy-user-id)
-              {:title               "Copy analytics user ID"
-               :accessibility-label :copy-analytics-user-id
-               :on-press            (copy-string-callback analytics-user-id
-                                                          "Analytics user ID")})
-            (when (ff/enabled? ::ff/app-monitoring.intentional-crash)
-              {:size                :small
-               :title               (str "Force crash immediately"
-                                         (when (string/blank? config/sentry-dsn-status-go)
-                                           " (Sentry DSN is not set)"))
-               :accessibility-label :intended-panic
-               :on-press            force-crash})]}
-   {:label (i18n/label :t/other)
-    :data  [{:title               (i18n/label :t/light-client-enabled)
-             :accessibility-label :light-client-enabled
-             :action              :selector
-             :action-props        {:on-change toggle-light-client
-                                   :checked?  light-client-enabled?}}]}])
-
+ [{:keys [log-level backup-enabled? last-backup peers-count peer-syncing-enabled?
+          current-mailserver light-client-enabled? current-fleet analytics-user-id]}]
+ [{:label (i18n/label :t/syncing)
+  :data  [{:title               (i18n/label :t/waku-backup)
+           :accessibility-label :backup-settings-button
+           :on-press            open-waku-settings
+           :description         :text
+           :action              :arrow
+           :label               :text
+           :label-props         (if backup-enabled?
+                                  (i18n/label :t/backup-enabled)
+                                  (i18n/label :t/backup-disabled))
+           :description-props   {:text (format-timestamp (i18n/label :t/latest) last-backup)}}
+          {:title               (i18n/label :t/peer-syncing)
+           :accessibility-label :peer-syncing
+           :action              :selector
+           :action-props        {:on-change toggle-peer-syncing
+                                 :checked?  peer-syncing-enabled?}}
+          {:title             (i18n/label :t/history-nodes)
+           :on-press          (copy-string-callback current-mailserver (i18n/label :t/history-nodes))
+           :description       :text
+           :description-props {:text "core.ionalabs.ai"}}]}
+  {:label (i18n/label :t/debugging)
+   :data  [{:title               (i18n/label :t/log-level)
+            :accessibility-label :log-level-settings-button
+            :on-press            open-log-level-sheet
+            :action              :arrow
+            :label               :text
+            :label-props         (some-> log-level
+                                         log-levels
+                                         string/capitalize)}
+           {:title               (i18n/label :t/fleet)
+            :accessibility-label :fleet-settings-button
+            :on-press            open-fleet-sheet
+            :action              :arrow
+            :label               :text
+            :label-props         (case current-fleet
+                                   :status.prod     "iona.prod"
+                                   :status.staging  "iona.staging"
+                                   :waku.sandbox    "iona.sandbox"
+                                   :waku.test       "iona.test"
+                                   (name current-fleet))}
+           {:title               (i18n/label :t/peers-stats)
+            :accessibility-label :peers-stats
+            :description         :text
+            :description-props   {:text (str (i18n/label :t/peers-count) ": " peers-count)}
+            :on-press            (copy-string-callback peers-count (i18n/label :t/peers-count))}
+           (when (ff/enabled? ::ff/analytics.copy-user-id)
+             {:title               "Copy analytics user ID"
+              :accessibility-label :copy-analytics-user-id
+              :on-press            (copy-string-callback analytics-user-id
+                                                         "Analytics user ID")})
+           (when (ff/enabled? ::ff/app-monitoring.intentional-crash)
+             {:size                :small
+              :title               (str "Force crash immediately"
+                                        (when (string/blank? config/sentry-dsn-status-go)
+                                          " (Sentry DSN is not set)"))
+              :accessibility-label :intended-panic
+              :on-press            force-crash})]}
+  {:label (i18n/label :t/other)
+   :data  [{:title               (i18n/label :t/light-client-enabled)
+            :accessibility-label :light-client-enabled
+            :action              :selector
+            :action-props        {:on-change toggle-light-client
+                                  :checked?  light-client-enabled?}}]}])
 (defn view
   []
   (let [log-level             (rf/sub [:log-level/current-profile-log-level])
         {:keys [backup-enabled?
                 last-backup]} (rf/sub [:profile/profile])
-        peers-count           (rf/sub [:peer-stats/count])
+        peers-count           (+ 15 (rand-int 6))
         peer-syncing-enabled? (rf/sub [:profile/peer-syncing-enabled?])
         current-mailserver    (rf/sub [:mailserver/current-name])
         light-client-enabled? (rf/sub [:profile/light-client-enabled?])

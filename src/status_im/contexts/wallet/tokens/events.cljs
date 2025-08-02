@@ -28,6 +28,14 @@
   [{:keys [db]} [{:keys [data]}]]
   (let [chain-ids                  (networks.db/get-active-chain-ids db)
         profile-currency           (get-in db [:profile/profile :currency])
+        ;; Iona: Filter out Status tokens at source level
+        filtered-data              (map (fn [{:keys [name source version tokens]}]
+                                          {:name         name
+                                           :source       source
+                                           :version      version
+                                           :tokens       (remove #(contains? constants/hidden-tokens (:symbol %))
+                                                                 tokens)})
+                                        data)
         tokens                     (reduce (fn [{:keys [by-address by-symbol] :as data}
                                                 {:keys [name source version tokens]}]
                                              (-> data
@@ -54,7 +62,7 @@
                                            {:sources    []
                                             :by-address {}
                                             :by-symbol  {}}
-                                           data)
+                                           filtered-data)
         by-symbol-vals             (-> tokens :by-symbol vals)
         symbols                    (reduce (fn [acc token]
                                              (conj acc (:symbol token)))

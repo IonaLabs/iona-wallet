@@ -66,7 +66,9 @@
 
 (defn rpc->networks
   [networks-data]
-  (->> (map make-network networks-data)
+  (->> networks-data
+       (filter #(not= (:chainId %) 1660990954)) ; Status Sepolia'yı filtrele
+       (map make-network)
        (filter (comp not nil? :source))))
 
 (defn network-chain-ids

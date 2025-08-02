@@ -1,4 +1,10 @@
 {
-  "name": "StatusIm",
-  "displayName": "StatusIm"
+  "name": "Iona",
+  "displayName": "Iona",
+  "slug": "statusim",
+  "extra": {
+    "eas": {
+      "projectId": "6958205e-1c54-47c7-9e76-1fcf8af014fb"
+    }
+  }
 }

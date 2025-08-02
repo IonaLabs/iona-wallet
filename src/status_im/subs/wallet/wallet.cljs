@@ -498,7 +498,9 @@
  :<- [:wallet/current-viewing-account]
  :<- [:wallet/filtered-chain-ids]
  (fn [[{:keys [tokens]} chain-ids]]
-   (utils/filter-tokens-in-chains tokens chain-ids)))
+   (->> tokens
+        (remove #(contains? constants/hidden-tokens (:symbol %)))
+        (utils/filter-tokens-in-chains chain-ids))))
 
 (rf/reg-sub
  :wallet/current-viewing-account-tokens-filtered
@@ -510,6 +512,7 @@
  (fn [[account networks send-data currency price-per-token] [_ {:keys [query chain-ids hide-token-fn]}]]
    (let [tx-type       (:tx-type send-data)
          tokens        (->> (:tokens account)
+                            (remove #(contains? constants/hidden-tokens (:symbol %)))
                             (map
                              (fn [token]
                                (let [total-balance (utils/calculate-total-token-balance
@@ -551,6 +554,7 @@
  (fn [{:keys [by-symbol market-values-per-token details-per-token]}
       [_ {:keys [query chain-ids hide-token-fn]}]]
    (let [tokens        (->> by-symbol
+                            (remove #(contains? constants/hidden-tokens (:symbol %)))
                             (map (fn [token]
                                    (let [token-symbol (keyword (:symbol token))]
                                      (-> token
@@ -673,7 +677,9 @@
  :wallet/aggregated-tokens
  :<- [:wallet/accounts-without-watched-accounts]
  (fn [accounts]
-   (utils/aggregate-tokens-for-all-accounts accounts)))
+   (->> accounts
+        utils/aggregate-tokens-for-all-accounts
+        (remove #(contains? constants/hidden-tokens (:symbol %))))))
 
 (rf/reg-sub
  :wallet/aggregated-tokens-in-active-networks

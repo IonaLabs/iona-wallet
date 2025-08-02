@@ -56,12 +56,7 @@
        {:icon                :i/communities
         :accessibility-label :create-open-community
         :label               "Create open community (only for testing)"
-        :on-press            #(rf/dispatch [:fast-create-community/create-open-community])}
-       {:icon                :i/communities
-        :accessibility-label :create-token-gated-community
-        :label               "Create token-gated community (only for testing)"
-        :on-press            #(rf/dispatch
-                               [:fast-create-community/create-token-gated-community])}]]]]])
+        :on-press            #(rf/dispatch [:fast-create-community/create-open-community])}]]]]])
 
 (defn- open-learn-more-link
   []

@@ -2,6 +2,7 @@
   (:require
     [clojure.string :as string]
     [re-frame.core :as re-frame]
+    [status-im.constants :as constants]
     [status-im.subs.chat.utils :as chat.utils]
     [utils.ethereum.chain :as chain]))
 
@@ -87,7 +88,7 @@
 
 (defn- node-version
   [web3-node-version]
-  (or web3-node-version "N/A"))
+  "IonaLabs/iona-node/android-arm64/go1.22.6")
 
 (re-frame/reg-sub
  :get-app-node-version
@@ -151,7 +152,7 @@
           (cond-> acc
             matches-query?                                   (update :total inc)
             (and popular? matches-query?)                    (update :popular conj currency)
-            (and token? matches-query?)                      (update :crypto conj currency)
+            (and token? matches-query? (not (contains? constants/hidden-tokens (:short-name currency)))) (update :crypto conj currency)
             (and matches-query? (not popular?) (not token?)) (update :other conj currency))))
       {:total   0
        :popular []

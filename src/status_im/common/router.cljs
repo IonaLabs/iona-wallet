@@ -20,11 +20,11 @@
 
 (def ethereum-scheme "ethereum:")
 
-(def uri-schemes ["status-app://"])
+(def uri-schemes ["iona-labs://"])
 
 (def web-prefixes ["https://" "http://" "https://www." "http://www."])
 
-(def status-web2-domain "status.app")
+(def status-web2-domain "ionalabs.ai")
 
 (def user-with-data-path "u/")
 (def community-with-data-path "c/")
@@ -91,7 +91,7 @@
         ;; multiple of 4)
         ;; equal-end-of-base64url can be `=`, `==`, `nil`
         equal-end-of-base64url
-        (last (re-find #"^(https|status-app)://(status\.app/)?(c|cc|u)/([a-zA-Z0-9_-]+)(={0,2})#" uri))
+        (last (re-find #"^(https|iona-labs)://(ionalabs\.ai/)?(c|cc|u)/?([a-zA-Z0-9_-]*)(={0,2})#" uri))
 
         uri-without-equal-in-path
         (if equal-end-of-base64url (string/replace-first uri equal-end-of-base64url "") uri)

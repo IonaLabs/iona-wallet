@@ -202,3 +202,4 @@ lefthook.yml
 
 ## build time logs
 /logs/*.log
+statusgo/

@@ -7,15 +7,15 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>Iona</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<string>ai.ionalabs.iona</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>Iona</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -26,20 +26,21 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>im.status.ethereum.applink</string>
+			<string>ai.ionalabs.iona.applink</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>status-app</string>
+				<string>iona-labs</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>im.status.ethereum.eip681</string>
+			<string>ai.ionalabs.iona.crypto</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>ethereum</string>
+				<string>wc</string>
 			</array>
 		</dict>
 	</array>
@@ -61,7 +62,7 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>api.status.im</key>
+			<key>api.ionalabs.ai</key>
 			<dict>
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -72,9 +73,9 @@
 				<true/>
 			</dict>
 		</dict>
-	</dict>
+	</key>
 	<key>NSCameraUsageDescription</key>
-	<string>Status uses camera to take pictures and scan QR codes.</string>
+	<string>Iona uses camera to take pictures and scan QR codes.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>NSLocationAlwaysUsageDescription</key>

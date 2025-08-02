@@ -23,23 +23,23 @@
 (def about-data
   [{:app-info? true}
    {:category-label (i18n/label :t/website)
-    :items          [{:title        "status.app"
+    :items          [{:title        "ionalabs.ai"
                       :on-press     #(open-link constants/status-app-url)
                       :blur?        true
                       :action       :arrow
                       :action-props {:icon :i/external}}]}
    {:category-label (i18n/label :t/github-repos)
-    :items          [{:title        "status-mobile"
+    :items          [{:title        "Manifesto"
                       :on-press     #(open-link constants/status-mobile-url)
                       :blur?        true
                       :action       :arrow
                       :action-props {:icon :i/external}}
-                     {:title        "status-go"
+                     {:title        "Github"
                       :on-press     #(open-link constants/status-go-url)
                       :blur?        true
                       :action       :arrow
                       :action-props {:icon :i/external}}
-                     {:title        "go-waku"
+                     {:title        "X"
                       :on-press     #(open-link constants/go-waku-url)
                       :blur?        true
                       :action       :arrow

@@ -30,7 +30,7 @@
                              :description       "Some cool description will be here"
                              :blur?             false
                              :upper-button-text "Send community link"
-                             :lower-button-text "Invite friends to Status"})]
+                             :lower-button-text "Invite friends to Iona"})]
     (fn []
       [preview/preview-container
        {:state                 state
