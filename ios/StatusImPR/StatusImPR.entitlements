@@ -11,11 +11,11 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:status.app</string>
+		<string>applinks:ionalabs.ai</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)im.status.ethereum.pr</string>
+		<string>$(AppIdentifierPrefix)ai.ionalabs.iona.pr</string>
 	</array>
 </dict>
 </plist>
