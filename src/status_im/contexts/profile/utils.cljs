@@ -17,6 +17,9 @@
 
 (defn photo
   [{:keys [images]}]
-  (or (:large images)
-      (:thumbnail images)
-      (first images)))
+  (let [image-data (or (:large images)
+                       (:thumbnail images)
+                       (first images))]
+    (if (map? image-data)
+      (:uri image-data)
+      image-data)))

@@ -53,7 +53,13 @@
        :image-props :i/browser
        :image       :icon
        :blur?       true
-       :action      :arrow})]
+       :action      :arrow})
+    {:title       (i18n/label :t/keycard)
+     :on-press    #(rf/dispatch [:open-modal :screen/settings.keycard])
+     :image-props :i/keycard
+     :image       :icon
+     :blur?       true
+     :action      :arrow}]
    [{:title       (i18n/label :t/network-settings)
      :blur?       true
      :image       :icon

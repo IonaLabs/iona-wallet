@@ -1,8 +1,8 @@
 import { useDerivedValue, withTiming, Easing } from 'react-native-reanimated';
 
 const slideAnimationDuration = 300;
-const totalPages = 3;
-const pageSize = 25;
+const totalPages = 2;
+const pageSize = 50;
 
 const easeOut = {
   duration: slideAnimationDuration,
@@ -13,7 +13,7 @@ const easeOut = {
 export function dynamicProgressBarWidth(staticProgressBarWidth, progress) {
   return useDerivedValue(function () {
     'worklet';
-    return (staticProgressBarWidth * (progress.value || 0)) / 75;
+    return (staticProgressBarWidth * (progress.value || 0)) / 100;
   });
 }
 
@@ -22,10 +22,8 @@ export function carouselLeftPosition(windowWidth, progress, isDragging, dragAmou
     'worklet';
     const progressValue = progress.value;
     const dragAmountValue = dragAmount.value;
-
     const baseOffset = (Math.floor(progressValue / pageSize) % totalPages) * windowWidth;
     const adjustedOffset = baseOffset === 0 && dragAmountValue > 0 ? baseOffset : -baseOffset + dragAmountValue;
-
     return isDragging.value ? adjustedOffset : withTiming(-baseOffset, easeOut);
   });
 }

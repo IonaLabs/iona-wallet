@@ -287,7 +287,7 @@ run-android: ##@run Build Android APK and start it on the device
 SIMULATOR=iPhone 13
 # TODO: fix IOS_STATUS_GO_TARGETS to be either amd64 or arm64 when RN is upgraded
 run-ios: export TARGET := ios
-run-ios: export IOS_STATUS_GO_TARGETS := ios/arm64;iossimulator/amd64
+run-ios: export IOS_STATUS_GO_TARGETS := ios/arm64;iossimulator/arm64
 run-ios: ##@run Build iOS app and start it in on the simulator
 	@scripts/run-ios.sh "${SIMULATOR}"
 
@@ -296,7 +296,7 @@ show-ios-devices: ##@other shows connected ios device and its name
 
 # TODO: fix IOS_STATUS_GO_TARGETS to be either amd64 or arm64 when RN is upgraded
 run-ios-device: export TARGET := ios
-run-ios-device: export IOS_STATUS_GO_TARGETS := ios/arm64;iossimulator/amd64
+run-ios-device: export IOS_STATUS_GO_TARGETS := ios/arm64;iossimulator/arm64
 run-ios-device: ##@run iOS app and start it on the first connected iPhone
 	@scripts/run-ios-device.sh
 

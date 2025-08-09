@@ -700,14 +700,14 @@
  :<- [:profile/currency-symbol]
  :<- [:wallet/prices-per-token]
  :<- [:wallet/market-values-per-token]
- (fn [[{:keys [color]} all-tokens currency currency-symbol prices-per-token market-values-per-token]]
-   (let [tokens (remove #(contains? constants/hidden-tokens (:symbol %)) all-tokens)]
-     (utils/calculate-and-sort-tokens {:tokens                  tokens
-                                       :color                   color 
-                                       :currency                currency
-                                       :currency-symbol         currency-symbol
-                                       :prices-per-token        prices-per-token
-                                       :market-values-per-token market-values-per-token}))))
+ (fn [[{:keys [color]} tokens currency currency-symbol prices-per-token market-values-per-token]]
+   (utils/calculate-and-sort-tokens {:tokens                  tokens
+                                     :color                   color
+                                     :currency                currency
+                                     :currency-symbol         currency-symbol
+                                     :prices-per-token        prices-per-token
+                                     :market-values-per-token market-values-per-token})))
+
 (rf/reg-sub
  :wallet/aggregated-token-values-and-balance
  :<- [:wallet/aggregated-tokens-in-active-networks]

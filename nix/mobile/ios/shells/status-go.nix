@@ -7,7 +7,7 @@
 
 let
     targets = let
-      targetsString = lib.getEnvWithDefault "IOS_STATUS_GO_TARGETS" "ios/arm64;iossimulator/amd64";
+      targetsString = lib.getEnvWithDefault "IOS_STATUS_GO_TARGETS" "ios/arm64;iossimulator/arm64";
     in lib.splitString ";" targetsString;
 in
   mkShell {

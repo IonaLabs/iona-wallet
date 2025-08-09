@@ -1042,7 +1042,7 @@
 				SWIFT_VERSION = 5.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "x86_64 arm64";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "x86_64 ";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "arm64 x86_64";
 			};
 			name = Debug;
 		};
@@ -1369,7 +1369,7 @@
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
 				VALID_ARCHS = arm64;
-				"VALID_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "arm64 x86_64";
 			};
 			name = Debug;
 		};

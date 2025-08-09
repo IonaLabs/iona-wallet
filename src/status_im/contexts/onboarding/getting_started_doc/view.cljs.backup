@@ -32,7 +32,16 @@
     [quo/text
      {:size  :paragraph-2
       :style style/content}
-     (i18n/label :t/getting-started-generate-keys-from-recovery-phrase-description)]]])
+     (i18n/label :t/getting-started-generate-keys-from-recovery-phrase-description)]
+    [quo/text
+     {:size   :paragraph-1
+      :style  style/subtitle
+      :weight :semi-bold}
+     (i18n/label :t/getting-started-generate-keys-on-keycard)]
+    [quo/text
+     {:size  :paragraph-2
+      :style style/content}
+     (i18n/label :t/getting-started-generate-keys-on-keycard-description)]]])
 
 (defn show-as-bottom-sheet
   []

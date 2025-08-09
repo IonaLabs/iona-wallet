@@ -85,6 +85,7 @@
     [status-im.contexts.profile.settings.view :as settings]
     [status-im.contexts.settings.about.view :as settings.about]
     [status-im.contexts.settings.advanced.view :as settings.advanced]
+    [status-im.contexts.settings.keycard.view :as settings.keycard]
     [status-im.contexts.settings.language-and-currency.currency.view :as settings.currency-selection]
     [status-im.contexts.settings.language-and-currency.view :as settings.language-and-currency]
     [status-im.contexts.settings.privacy-and-security.share-usage.view :as settings.share-usage]
@@ -329,6 +330,12 @@
     :options   options/transparent-screen-options
     :component settings/view}
 
+   {:name      :screen/settings.keycard
+    :metrics   {:track?   true
+                :alias-id :settings.keycard}
+    :options   {:theme  :dark
+                :insets {:top? true :bottom? true}}
+    :component settings.keycard/view}
 
    {:name      :screen/edit-profile
     :metrics   {:track?   true

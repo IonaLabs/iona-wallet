@@ -40,19 +40,7 @@
 
 (defn wc-normalize-uri
   [uri]
-  (let [result (cond
-                 (string/starts-with? uri "wc://")
-                 (-> uri
-                     (string/replace-first "wc://" "wc:")
-                     (string/replace #"/$" ""))
-                 
-                 (string/includes? uri "//wc:")
-                 (string/replace-first uri "/?" "?")
-                 
-                 :else
-                 uri)]
-    (js/console.log "WC-NORMALIZE: input=" uri "output=" result)  ;; DEBUG LOG
-    result))
+  (if (string/includes? uri "//wc:") (string/replace-first uri "/?" "?") uri))
 
 (def group-chat-extractor
   {[#"(.*)" :params] {""  :group-chat
@@ -74,7 +62,7 @@
                      [user-with-data-path :user-data]           :user
                      "c"                                        :community
                      "u"                                        :user
-                     #"wc:.*"                                   :wallet-connect
+                     #"wc:([^\?]+)"                             :wallet-connect
                      "wc"                                       :wallet-connect}
     ethereum-scheme eip-extractor}])
 
@@ -121,8 +109,6 @@
         (assoc (bidi/match-route routes normalize-uri)
                :uri          uri
                :query-params (parse-query-params uri))]
-
-        _ (js/console.log "BIDI-RESULT: handler=" handler "params=" route-params)
     (cond-> parsed
       ens?
       (assoc-in [:route-params :ens-name] fragment)
@@ -306,14 +292,6 @@
   (let [{:keys [handler route-params query-params]} (match-uri uri)]
     (log/info "[router] uri " uri " matched " handler " with " route-params)
     (cond
-      (or (string/starts-with? uri "wc:")
-          (string/starts-with? uri "wc://"))
-      (do
-        (js/console.log "WC-DIRECT-MATCH: uri=" uri)
-         (cb {:type :wallet-connect
-              :uri  (if (string/starts-with? uri "wc://")
-                      (string/replace-first uri "wc://" "wc:")
-                      uri)}))
 
       ;; ;; NOTE: removed in `match-uri`, might need this in the future
       ;; (= handler :browser)

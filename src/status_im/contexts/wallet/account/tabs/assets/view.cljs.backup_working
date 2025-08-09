@@ -8,8 +8,13 @@
 
 (defn view
   []
-  (let [tokens-loading?       (rf/sub [:wallet/home-tokens-loading?])
-        {:keys [tokens]}      (rf/sub [:wallet/aggregated-token-values-and-balance])
+  (let [tokens-loading?       (rf/sub [:wallet/current-viewing-account-tokens-loading?])
+        raw-tokens            (try 
+                                (rf/sub [:wallet/current-viewing-account-token-values])
+                                (catch js/Error e 
+                                  (js/console.log "Token calculation error:" e)
+                                  []))
+        tokens                (if (sequential? raw-tokens) raw-tokens [])
         {:keys [watch-only?]} (rf/sub [:wallet/current-viewing-account])]
     (if tokens-loading?
       [quo/skeleton-list

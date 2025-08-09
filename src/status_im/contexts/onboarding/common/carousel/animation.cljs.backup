@@ -9,8 +9,8 @@
 (def ^:const progress-bar-animation-delay 300)
 (def ^:const progress-bar-animation-duration 4000)
 (def ^:const initial-division-quotient 4)
-(def ^:const progress-threshold 50)
-(def ^:const drag-limit 100)
+(def ^:const progress-threshold 25)
+(def ^:const drag-limit 75)
 
 (defn slide-animation
   [progress-percentage & [duration]]

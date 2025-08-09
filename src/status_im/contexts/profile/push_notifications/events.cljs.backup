@@ -10,10 +10,10 @@
     [status-im.common.json-rpc.events :as json-rpc]
     [status-im.config :as config]
     status-im.contexts.profile.push-notifications.effects
-    [status-im.contexts.profile.push-notifications.ionalabs :as ionalabs]
     [taoensso.timbre :as log]
     [utils.re-frame :as rf]
     [utils.transforms :as transforms]))
+
 (def apn-token-type 1)
 (def firebase-token-type 2)
 
@@ -36,13 +36,12 @@
 (rf/defn handle-enable-notifications-event
   {:events [:push-notifications/registered-for-push-notifications]}
   [_ token]
-  (log/info "🔄 Intercepting Status registration, redirecting to IonaLabs")
-  (ionalabs/override-status-registration token (if platform/ios? apn-token-type firebase-token-type))
-  ;; Return success to app (fake Status registration)
-  {:json-rpc/call [{:method "wakuext_fake_success"
-                    :params []
-                    :on-success #(log/info "[ionalabs] ✅ Registration redirected to IonaLabs")
-                    :on-error #(log/info "[ionalabs] ❌ Registration failed")}]})
+  {:json-rpc/call [{:method     "wakuext_registerForPushNotifications"
+                    :params     [token (when platform/ios? config/apn-topic)
+                                 (if platform/ios? apn-token-type firebase-token-type)]
+                    :on-success #(log/info "[push-notifications] register-success" %)
+                    :on-error   #(log/info "[push-notifications] register-error" %)}]})
+
 (rf/defn handle-disable-notifications-event
   {:events [:push-notifications/unregistered-from-push-notifications]}
   [_]

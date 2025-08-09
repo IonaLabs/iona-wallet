@@ -52,6 +52,16 @@
     :image               (resources/get-image :ethereum-address)
     :on-press            navigate-to-sign-in-by-recovery-phrase}])
 
+(defn- use-empty-keycard-icon-card
+  []
+  [quo/small-option-card
+   {:variant             :icon
+    :title               (i18n/label :t/use-an-empty-keycard)
+    :subtitle            (i18n/label :t/use-an-empty-keycard-subtitle)
+    :accessibility-label :use-an-empty-keycard-icon-card
+    :image               (resources/get-image :use-keycard)
+    :on-press            #(rf/dispatch [:open-modal :screen/keycard.create-profile])}])
+
 (defn- navigate-to-quo-preview
   []
   (rf/dispatch [:navigate-to :screen/quo-preview]))
@@ -83,5 +93,7 @@
         {:style  style/subtitle
          :size   :paragraph-2
          :weight :medium}
-        "Other Option"]]
-      [use-recovery-phrase-icon-card]]]))
+        (i18n/label :t/other-options)]]
+      [use-recovery-phrase-icon-card]
+      [rn/view {:style style/space-between-suboptions}]
+      [use-empty-keycard-icon-card]]]))
