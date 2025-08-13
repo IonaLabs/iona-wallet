@@ -161,9 +161,9 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    namespace "im.status.ethereum"
+    namespace "ai.iona.labs"
     defaultConfig {
-        applicationId "im.status.ethereum"
+        applicationId "ai.iona.labs"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
@@ -231,7 +231,7 @@ android {
             applicationIdSuffix ".debug"
             debuggable          true
             versionNameSuffix   "-SNAPSHOT"
-            resValue "string", "build_config_package", "im.status.ethereum"
+            resValue "string", "build_config_package", "ai.iona.labs"
             signingConfig signingConfigs.debug
         }
         release {
@@ -247,7 +247,7 @@ android {
             debuggable false
             matchingFallbacks = ["release"]
             // necessary to make react-native-config's code generation work
-            resValue "string", "build_config_package", "im.status.ethereum"
+            resValue "string", "build_config_package", "ai.iona.labs"
         }
     }
 

@@ -29,12 +29,6 @@
     [rn/view {:style container-style}
      [rn/view {:style style/inner-container}
       [action-button
-       {:icon                :i/add
-        :text                (i18n/label :t/buy)
-        :on-press            buy-action
-        :theme               theme
-        :accessibility-label :buy}]
-      [action-button
        {:icon                :i/send
         :text                (i18n/label :t/send)
         :on-press            send-action

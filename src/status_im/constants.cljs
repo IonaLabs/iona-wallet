@@ -209,7 +209,7 @@
 
 ;; Wallet Connect
 (def ^:const wallet-connect-metadata-icon
-  "https://res.cloudinary.com/dhgck7ebz/image/upload/f_auto,c_limit,w_1080,q_auto/Brand/Logo%20Section/Mark/Mark_01")
+  "https://avatars.githubusercontent.com/u/205640620?v=4")
 (def ^:const wallet-connect-metadata-url "https://ionalabs.ai")
 (def ^:const wallet-connect-metadata-redirect-native "iona-labs://")
 

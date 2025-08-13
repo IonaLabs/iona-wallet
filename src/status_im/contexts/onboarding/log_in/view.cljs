@@ -108,4 +108,4 @@
         (i18n/label :t/other-options)]]
       [log-in-by-syncing-icon-card]
       [rn/view {:style style/space-between-suboptions}]
-      [log-in-with-keycard-icon-card]]]))
+      ]]))

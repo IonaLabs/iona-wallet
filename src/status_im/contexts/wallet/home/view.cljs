@@ -123,7 +123,6 @@
      {:container-style  style/cta-buttons
       :send-action      on-send-press
       :receive-action   on-receive-press
-      :buy-action       on-buy-press
       :bridge-action    on-bridge-press
       :swap-action      on-swap-press
       :bridge-disabled? testnet-mode?

@@ -1,116 +1,45 @@
 {
   "project_info": {
-    "project_number": "854811651919",
-    "firebase_url": "https://status-react-app.firebaseio.com",
-    "project_id": "status-react-app",
-    "storage_bucket": "status-react-app.appspot.com"
+    "project_number": "637923294891",
+    "project_id": "iona-labs-53f98",
+    "storage_bucket": "iona-labs-53f98.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:854811651919:android:11ee7444ded8a00a",
+        "mobilesdk_app_id": "1:637923294891:android:bb9ed063cba503bb63c1ee",
         "android_client_info": {
-          "package_name": "im.status.ethereum"
+          "package_name": "ai.iona.labs"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "854811651919-gua52csicclb5p9gr4eeu33ukk0aaphj.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAOF4W1j8GYeXzzVKRfNKlXywD6bx0rJtQ"
+          "current_key": "AIzaSyCHC1KfyjEOL8jgt7mhK5d3NHmgKLINAVo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "854811651919-gua52csicclb5p9gr4eeu33ukk0aaphj.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "854811651919-30s20e3l0me0ins0vc4185jbnj7ja49o.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "im.status.ethereum"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:854811651919:android:15dbe4af1e06ca3e005f3a",
+        "mobilesdk_app_id": "1:637923294891:android:772600e6ffe3626863c1ee",
         "android_client_info": {
-          "package_name": "im.status.ethereum.debug"
+          "package_name": "ai.iona.labs.debug"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "854811651919-gua52csicclb5p9gr4eeu33ukk0aaphj.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAOF4W1j8GYeXzzVKRfNKlXywD6bx0rJtQ"
+          "current_key": "AIzaSyCHC1KfyjEOL8jgt7mhK5d3NHmgKLINAVo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "854811651919-gua52csicclb5p9gr4eeu33ukk0aaphj.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "854811651919-30s20e3l0me0ins0vc4185jbnj7ja49o.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "im.status.ethereum"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:854811651919:android:1d0d69fe8c1bb89b005f3a",
-        "android_client_info": {
-          "package_name": "im.status.ethereum.pr"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "854811651919-gua52csicclb5p9gr4eeu33ukk0aaphj.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAOF4W1j8GYeXzzVKRfNKlXywD6bx0rJtQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "854811651919-gua52csicclb5p9gr4eeu33ukk0aaphj.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "854811651919-30s20e3l0me0ins0vc4185jbnj7ja49o.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "im.status.ethereum"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

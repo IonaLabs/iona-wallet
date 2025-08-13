@@ -41,7 +41,7 @@
   []
   (let [customization-color (rf/sub [:profile/customization-color])
         privacy-mode-enabled? (rf/sub [:privacy-mode/privacy-mode-enabled?])
-        preview-privacy? (rf/sub [:profile/preview-privacy?])
+        preview-privacy? false
         see-profile-pictures-from (rf/sub [:profile/pictures-visibility])
         show-profile-pictures-to (rf/sub [:multiaccount/profile-pictures-show-to])
 

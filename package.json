@@ -1,5 +1,5 @@
 {
-  "name": "StatusIm-Mobile",
+  "name": "Iona-Mobile",
   "version": "0.0.1",
   "main": "modules/react-native-status/nodejs/bindings.js",
   "private": true,

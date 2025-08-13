@@ -15,16 +15,21 @@
   [{:text     (i18n/label :t/own-your-crypto)
     :sub-text (i18n/label :t/use-the-multichain-wallet)}
    {:text     (i18n/label :t/chat-with-friends)
-    :sub-text (i18n/label :t/with-full-encryption)}])
+    :sub-text (i18n/label :t/with-full-encryption)}
+   {:text     (i18n/label :t/store-your-asets-on-keycard)
+    :sub-text (i18n/label :t/a-card-shaped-hardware-wallet)}])
 
 (defn background-image
   [window-width]
-  [rn/view {:style (style/background-image-container (* window-width 2))}
+  [rn/view {:style (style/background-image-container (* window-width 3))}
    [rn/image
     {:source (resources/get-image :own-buy-and-swap-your-crypto)
      :style  {:align-self :center :width window-width}}]
    [rn/image
     {:source (resources/get-image :chat-privately-with-friends)
+     :style  {:align-self :center :width window-width}}]
+   [rn/image
+    {:source (resources/get-image :store-your-assets-on-keycard)
      :style  {:align-self :center :width window-width}}]])
 
 (defonce progress (atom nil))
