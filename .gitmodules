@@ -1,3 +1,6 @@
 [submodule "legal-docs"]
 	path = legal-docs
 	url = https://github.com/status-im/status-software-legal-documents.git
+[submodule "statusgo"]
+	path = statusgo
+	url = https://github.com/IonaLabs/iona-statusgo.git
