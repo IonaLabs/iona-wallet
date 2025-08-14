@@ -3,8 +3,6 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -15,13 +13,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          fetch-depth: 0
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'yarn'
+          cache: 'npm'
       
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -34,9 +31,9 @@ jobs:
         with:
           api-level: 34
           build-tools: 34.0.0
-          ndk-version: '25.1.8937393'
+          ndk-version: 25.1.8937393
       
-      - name: Cache Gradle dependencies
+      - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
           path: |
@@ -47,93 +44,48 @@ jobs:
             ${{ runner.os }}-gradle-
       
       - name: Install dependencies
+        run: npm install --legacy-peer-deps
+        
+      - name: Setup StatusGO environment
         run: |
-          echo "Installing JavaScript dependencies..."
-          yarn install --frozen-lockfile
-      
-      - name: Verify Environment
-        run: |
-          echo "=== Environment Check ==="
-          echo "Node version: $(node --version)"
-          echo "Yarn version: $(yarn --version)"
-          echo "Java version: $(java -version)"
-          echo "Android SDK: $ANDROID_HOME"
-          echo "StatusGO path: ${{ github.workspace }}/statusgo"
-          echo ""
-          echo "=== StatusGO Contents ==="
-          ls -la statusgo/ | head -10
-          echo ""
-          echo "=== Android Project Structure ==="
-          ls -la android/
-      
-      - name: Setup StatusGO Environment
-        env:
-          STATUS_GO_SRC_OVERRIDE: ${{ github.workspace }}/statusgo
-        run: |
-          echo "STATUS_GO_SRC_OVERRIDE=$STATUS_GO_SRC_OVERRIDE" >> $GITHUB_ENV
-          echo "Setting up StatusGO environment..."
-          echo "StatusGO source: $STATUS_GO_SRC_OVERRIDE"
-      
-      - name: Make gradlew executable
+          echo "STATUS_GO_SRC_OVERRIDE=${{ github.workspace }}/statusgo" >> $GITHUB_ENV
+          echo "STATUS_GO_ANDROID_LIBDIR=${{ github.workspace }}/statusgo" >> $GITHUB_ENV
+          
+      - name: Prepare Android build
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew --version
-      
-      - name: Clean and prepare build
-        env:
-          STATUS_GO_SRC_OVERRIDE: ${{ github.workspace }}/statusgo
+          
+      - name: Create debug keystore (for testing)
+        run: |
+          cd android/app
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          
+      - name: Build AAB (Debug)
         run: |
           cd android
-          ./gradlew clean
-      
-      - name: Build Debug APK (Test)
-        env:
-          STATUS_GO_SRC_OVERRIDE: ${{ github.workspace }}/statusgo
+          ./gradlew bundleDebug --stacktrace
+          
+      - name: Build AAB (Release - unsigned)
         run: |
-          echo "Building debug APK first to test setup..."
           cd android
-          ./gradlew assembleDebug --stacktrace --info
-      
-      - name: Build Release AAB
-        env:
-          STATUS_GO_SRC_OVERRIDE: ${{ github.workspace }}/statusgo
-        run: |
-          echo "Building release AAB with StatusGO: $STATUS_GO_SRC_OVERRIDE"
-          cd android
-          ./gradlew bundleRelease --stacktrace --info
-      
-      - name: List build outputs
-        if: always()
-        run: |
-          echo "=== Build Outputs ==="
-          find android/app/build/outputs -name "*.aab" -o -name "*.apk" | head -10
-          echo ""
-          echo "=== APK/AAB Sizes ==="
-          find android/app/build/outputs -name "*.aab" -o -name "*.apk" -exec ls -lh {} \;
-      
-      - name: Upload Debug APK
-        if: always()
+          ./gradlew bundleRelease --stacktrace
+          
+      - name: Upload Debug AAB
         uses: actions/upload-artifact@v4
         with:
-          name: iona-wallet-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          retention-days: 7
-      
+          name: iona-wallet-debug-aab
+          path: android/app/build/outputs/bundle/debug/app-debug.aab
+          
       - name: Upload Release AAB
         uses: actions/upload-artifact@v4
         with:
           name: iona-wallet-release-aab
           path: android/app/build/outputs/bundle/release/app-release.aab
-          retention-days: 30
-      
-      - name: Upload Build Logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-logs
-          path: |
-            android/app/build/outputs/logs/
-            android/build/reports/
-          retention-days: 7
-          if-no-files-found: ignore
+          
+      - name: List build outputs
+        run: |
+          echo "Debug AAB:"
+          ls -la android/app/build/outputs/bundle/debug/ || echo "Debug bundle not found"
+          echo "Release AAB:"
+          ls -la android/app/build/outputs/bundle/release/ || echo "Release bundle not found"
